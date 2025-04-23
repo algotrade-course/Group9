@@ -3,9 +3,9 @@
 import os
 import argparse
 import json
-from strategy import run_strategy
-from evaluate import sharpe_ratio, maximum_drawdown
-from data import load_data
+from src.strategy import run_strategy
+from src.evaluate import sharpe_ratio, maximum_drawdown
+from src.data import load_data
 from matplotlib import pyplot as plt
 
 default_params = {
@@ -46,11 +46,6 @@ if __name__ == "__main__":
     # Load data
     in_sample_df, out_sample_df = load_data()
 
-    # best_params = {
-    #     "sma_window": 100,
-    #     "rsi_lower": 25.0,
-    #     "rsi_upper": 75.0
-    # }
     if args.use_optimized:
         if os.path.exists("best_params.json"):
             with open("best_params.json", "r") as f:
@@ -58,7 +53,7 @@ if __name__ == "__main__":
             print("📈 Sử dụng best_params từ optimize:")
             print(best_params)
         else:
-            print("Không tìm thấy best_params.json! Sử dụng best_params mặc định.")
+            print("⚠️ Không tìm thấy best_params.json! Sử dụng best_params mặc định.")
             best_params = default_params
         print("Chạy backtest trên **out-sample** data...")
         run_backtest(out_sample_df, best_params)
@@ -66,3 +61,4 @@ if __name__ == "__main__":
         print(" Sử dụng best_params mặc định.")
         print(" Chạy backtest trên **in-sample** data...")
         run_backtest(in_sample_df, default_params)
+
