@@ -2,10 +2,10 @@
 
 import optuna
 from optuna.samplers import TPESampler
-
+import json
 from src.data import load_data
 from src.strategy import run_strategy
-from src.evaluate import sharpe_ratio, maximum_drawdown
+from src.evaluate import sharpe_ratio, maximum_drawdown, holding_period_return
 from src.utils import plot_all_optuna
 
 def objective(trial, data):
@@ -36,7 +36,7 @@ def evaluate_best_strategy(study, data):
     print("\nEvaluation on Full Sample:")
     print(f"  Sharpe Ratio: {sharpe_ratio(asset_df):.4f}")
     print(f"  Maximum Drawdown: {maximum_drawdown(asset_df):.2f}%")
-
+    print(f"  Accumulated return rate: {holding_period_return(asset_df):.2f}%")
     return best_params, asset_df
 
 if __name__ == "__main__":
@@ -46,9 +46,9 @@ if __name__ == "__main__":
 
     # study = run_optimization(out_sample_df, n_trials=5, seed=710)
     # study = run_optimization(out_sample_df, n_trials=80, seed=710)
-    study = run_optimization(out_sample_df, n_trials=80, seed=710)
+    study = run_optimization(in_sample_df, n_trials=80, seed=710)
 
-    best_params, asset_df = evaluate_best_strategy(study, out_sample_df)
+    best_params, asset_df = evaluate_best_strategy(study, in_sample_df)
 
     # Sau khi evaluate_best_strategy()
     with open("best_params.json", "w") as f:
