@@ -1,6 +1,6 @@
 # Abstract
 
-This project presents the design, implementation, and evaluation of a hybrid trading strategy tailored for the VN30F1M futures index. The strategy combines two widely recognized technical indicators: the 100-period Simple Moving Average (SMA-100) and the 14-period Relative Strength Index (RSI-14). By integrating the concepts of trend-following and mean-reversion, the strategy seeks to exploit temporary mispricings in the market. Specifically, it generates trading signals when the RSI reaches extreme levels—indicating overbought or oversold conditions—relative to the direction of the SMA-defined trend. These entry signals are then evaluated for profitability within the broader context of the prevailing market regime. We utilize historical price data provided by Algotrade to backtest the strategy across multiple timeframes and market conditions. Key performance metrics, including cumulative returns, Sharpe ratio, and maximum drawdown, are used to assess robustness and risk-adjusted performance. The results indicate that the hybrid approach holds potential for consistent profitability, particularly during trending but volatile market phases, underscoring the value of blending momentum and reversal signals in systematic trading
+This project presents the design, implementation, and evaluation of a hybrid trading strategy tailored for the VN30F1M futures index. The strategy combines two widely recognized technical indicators: the 100-period Simple Moving Average (SMA-100) and the 14-period Relative Strength Index (RSI-14). By integrating the concepts of trend-following and mean-reversion, the strategy seeks to exploit temporary mispricings in the market. Specifically, it generates trading signals when the RSI reaches extreme levels—indicating overbought or oversold conditions—relative to the direction of the SMA-defined trend. These entry signals are then evaluated for profitability within the broader context of the prevailing market regime. We utilize historical price data provided by Algotrade to backtest the strategy across multiple timeframes and market conditions. Key performance metrics, including cumulative returns, Sharpe ratio, and maximum drawdown, are used to assess robustness and risk-adjusted performance. The results indicate that the hybrid approach holds potential for consistent profitability, particularly during trending but volatile market phases, underscoring the value of blending momentum and reversal signals in systematic trading.
 
 
 # 1. Introduction
@@ -13,7 +13,7 @@ The foundation of the hybrid strategy lies in the use of two technical indicator
 - The Simple Moving Average (SMA) with a 100-period window serves as a proxy for long-term market trend direction, helping to identify whether the overall sentiment is bullish or bearish.
 - The Relative Strength Index (RSI) with a 14-period window is used to detect short-term momentum extremes. When RSI values cross certain thresholds—typically above 70 for overbought and below 30 for oversold conditions—they may signal potential turning points in price action.
 
-By aligning RSI signals with the direction suggested by the SMA, the strategy aims to enter trades with higher probability setups, favoring mean-reversion trades that are in harmony with the broader trend. This hybrid structure is designed to reduce false signals and improve trade timing, which are common challenges in purely mean-reversion or momentum-based systems
+By aligning RSI signals with the direction suggested by the SMA, the strategy aims to enter trades with higher probability setups, favoring mean-reversion trades that are in harmony with the broader trend. This hybrid structure is designed to reduce false signals and improve trade timing, which are common challenges in purely mean-reversion or momentum-based systems.
 
 # 2. Related Work / Background
 
@@ -105,32 +105,65 @@ This logic ensures that positions are only opened when a potential reversal is a
 After closing a position, realized P&L is added to capital, and the system becomes eligible to open a new position the next day (if entry conditions are met)
 
 
+
 # 4. Data
 
-- Data source: Algotrade Internship Database
-- Data type: CSV
-- Data period:
-  - In-sample data: 2021-02-08 to 2023-12-22
-  - Out-sample data: 2023-12-22 to 2025-03-19
-- To get the input data:
-  - Option 1: Download [data](https://drive.google.com/drive/folders/1bK3aXEVfabASZs2xV8VBXYA0mXjQtB-A?usp=sharing) from google drive, extract these files into `data` folder
-  - Option 2: Use this script at project folder to get data (please wait for a few minutes ^^):
-  ```bash
-  python -m src.data
-  ```
-- If you use option 2, `in_sample_data.csv` and `out_sample_data.csv` is stored at `data` folder
+## Data Overview
 
-### Data collection
+- **Source**: [Algotrade Internship Database]
+- **Format**: CSV
+- **Instrument**: VN30F1M futures
+- **Timeframe**:
+  - **In-Sample**: 2021-02-08 → 2023-12-22
+  - **Out-of-Sample**: 2023-12-22 → 2025-03-19
 
-The price of VN30F1M are collected from Algotrade database using SQL queries, then was pre-processed and used for this project.
 
-### Data processing
+##  How to Access the Data
 
-Raw data was first cleaned by removing all records before 9:00 AM. Timestamps were rounded down to the nearest minute, and only the first record of each minute was retained to reduce noise. Column names were standardized, keeping only the essential fields: timestamp, ticker symbol, and closing price. The final dataset was then split into two sets: In-sample (70%) and Out-sample (30%), ensuring there was no overlap in timestamps between the two sets.
+You can obtain the required datasets in either of the following ways:
 
----
+####  Option 1: Download Manually
 
-## 5. Implementation Guide
+- Download from Google Drive: [🔗 Data Folder](https://drive.google.com/drive/folders/1bK3aXEVfabASZs2xV8VBXYA0mXjQtB-A?usp=sharing)
+- After downloading, extract the contents into the project’s `data/` folder.
+
+####  Option 2: Fetch Automatically via Script
+
+Run the following command from the project root to fetch and process the data:
+
+```bash
+python -m src.data
+```
+
+This will automatically generate the following files in the `data/` folder:
+- in_sample_data.csv
+- out_sample_data.csv
+> Please be patient ^^ the script may take a few minutes to complete.
+
+## Data Collection & Preprocessing
+- Raw price data of VN30F1M was extracted using below SQL queries from the Algotrade database:
+```sql
+SELECT m.datetime, m.tickersymbol, m.price
+FROM "quote"."matched" m
+LEFT JOIN "quote"."total" v
+  ON m.tickersymbol = v.tickersymbol
+  AND m.datetime = v.datetime
+WHERE m.datetime BETWEEN '2021-02-08' AND '2025-03-20'
+  AND m.tickersymbol LIKE 'VN30F%'
+```
+  
+- Preprocessing steps included:
+  - **Filtering trading hours**: Only data from 09:00 AM onward was retained.
+  - **Minute aggregation**: Only the first trade per minute was kept to reduce noise.
+  - **Standardization**: Column names were unified; only relevant columns were retained:
+    `timestamp`, `ticker`, `close_price`
+- Data split:
+  - 70% allocated to `in-sample`
+  - 30% allocated to `out-of-sample`
+No timestamp overlap between the two sets. This clean and well-structured dataset serves as the foundation for both backtesting and strategy optimization.
+
+
+# 5. Implementation Guide
 
 Follow the steps below to get the project up and running locally.
 
