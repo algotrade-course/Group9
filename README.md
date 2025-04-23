@@ -1,10 +1,10 @@
-## Abstract
+# Abstract
 
 This project implements a hybrid trading strategy on the VN30F1M futures index using the Simple Moving Average (SMA-100) and the Relative Strength Index (RSI-14). The strategy aims to capture mean-reversion signals that occur when RSI reaches extreme levels (overbought/oversold) against the prevailing SMA trend. We backtest the strategy using data from Algotrade, evaluating performance through returns, Sharpe ratio, and drawdown. Results suggest the approach can yield consistent returns under specific market conditions.
 
 ---
 
-## 1. Introduction
+# 1. Introduction
 
 Algorithmic trading has become an essential component of modern financial markets, allowing traders to implement and automate strategies based on well-defined rules and quantitative signals. Among the various classes of strategies, mean-reversion and momentum-based approaches are two fundamental techniques widely used by both retail and institutional traders.
 
@@ -13,15 +13,97 @@ This project focuses on applying a hybrid mean-reversion and momentum strategy t
 - Simple Moving Average (SMA) with a 100-period window is used to capture the long-term trend direction.
 - The Relative Strength Index (RSI) with a 14-period window is employed to identify short-term overbought and oversold conditions.
 
+# 2. Related Work / Background
+
+This section introduces foundational concepts in **technical analysis** that our strategy builds upon, specifically the **Simple Moving Average (SMA)** and the **Relative Strength Index (RSI)**.
+
+###  Simple Moving Average (SMA)
+The **Simple Moving Average (SMA)** is a widely used trend-following indicator that smooths price data by averaging closing prices over a fixed time window. It helps identify the general direction of market momentum and filters out short-term noise.
+
+**Formula:**
+
+```
+SMAₜ = (Pₜ + Pₜ₋₁ + ... + Pₜ₋ₙ₊₁) / n
+```
+
+Where:
+- `SMA_t` is the SMA at time `t`
+- `n` is the window size (e.g., 100)
+- `P_t` is the closing price at time `t`
+
+**Usage in our strategy:**
+- Go **long** only when price is **above** the SMA (bullish trend)
+- Go **short** only when price is **below** the SMA (bearish trend)
+
 ---
 
-## 2. Trading (Algorithm) Hypotheses
+###  Relative Strength Index (RSI)
+The **Relative Strength Index (RSI)** is a momentum oscillator that measures the magnitude of recent price changes to evaluate overbought or oversold conditions in the price of an asset.
 
-When the Relative Strength Index (RSI) indicates oversold or overbought conditions and aligns with the broader trend confirmed by a slower-moving average, prices are likely to revert to their mean. This creates opportunities to trade counter to short-term extremes while respecting the dominant trend.
+**Basic formula:**
+
+```
+RS = Average Gain / Average Loss
+RSI = 100 - (100 / (1 + RS))
+```
+
+RSI values range from 0 to 100:
+- RSI > 70 → Overbought (potential for downward reversal)
+- RSI < 30 → Oversold (potential for upward reversal)
+
+In our strategy:
+- **Long entry** when RSI is **low** (e.g., below 30) and price is above SMA
+- **Short entry** when RSI is **high** (e.g., above 70) and price is below SMA
 
 ---
 
-## 3. Data
+###  Strategic Combination
+By combining SMA and RSI:
+- **SMA** acts as a **trend filter**
+- **RSI** provides **entry timing** for mean-reversion opportunities
+
+This hybrid approach blends momentum and mean-reversion principles to improve signal quality and reduce noise in trade decisions.
+
+
+
+# 3. Trading (Algorithm) Hypotheses
+
+In volatile markets like the VN30F1M futures index, price movements often exhibit both trend-following characteristics during strong momentum phases and mean-reverting behavior during overbought or oversold corrections. Our trading hypothesis aims to exploit market inefficiencies by combining these two regimes into a single hybrid strategy:
+
+#### Hypothesis Statement
+> When the Relative Strength Index (RSI) indicates oversold or overbought conditions and aligns with the broader trend confirmed by a slower-moving average, prices are  >likely to revert to their mean. This creates opportunities to trade counter to short-term extremes while respecting the dominant trend.
+
+#### Rationale 
+The core premise behind this hypothesis is that short-term overreactions in price — often captured by RSI — have a higher likelihood of mean-reverting when the trade is aligned with the underlying trend direction, measured by the Simple Moving Average (SMA).
+We combine both trend-following and mean-reversion signals to form a hybrid strategy.
+<br> <br>
+
+### ENTRY conditions:
+#### Long Position (Buy Futures) :
+- `RSI < RSI_lower threshold` (e.g., < 30) → oversold condition
+- `Price > SMA` → confirms bullish trend
+- `Sufficient capital` to meet margin requirement
+#### Short Position (Sell Futures)
+- `RSI > RSI_upper threshold` (e.g., > 70) → overbought condition
+- `Price < SMA` → confirms bearish trend
+- `Sufficient capital` to meet margin requirement.
+  
+This logic ensures that positions are only opened when a potential reversal is aligned with the dominant trend regime.
+
+### EXIT conditions:
+#### LONG positions:
+- `RSI > 40` → market no longer oversold
+- Price crosses **below** SMA → trend may be reversing
+- Stop-loss triggered: Price **drops** more than **1.5%** from entry
+#### SHORT positions:
+- `RSI < 60` → market no longer overbought
+- Price crosses **above** SMA → trend may be reversing
+- Stop-loss triggered: Price **rises** more than **1.5%** from entry.
+
+After closing a position, realized P&L is added to capital, and the system becomes eligible to open a new position the next day (if entry conditions are met)
+
+
+# 4. Data
 
 - Data source: Algotrade Internship Database
 - Data type: CSV
@@ -90,7 +172,7 @@ pip install -r requirements.txt
 
 ---
 
-## 5. In-sample Backtesting
+# 5. In-sample Backtesting
 
 To start backtest, run this command:
 
@@ -112,7 +194,7 @@ python -m src.backtest
 
 ---
 
-## 6. Optimization
+# 6. Optimization
 
 #### Optimization Method
 
@@ -170,7 +252,7 @@ Then, we get below result:
 
 - ![Optimization Result](./graph/optimization_outsample/asset_over_time.png)
 
-## Conclusion
+# 7. Conclusion
 
 - The backtesting results reveal a significant discrepancy between the in-sample and out-sample performance of the strategy, despite using the same optimized parameters. While the in-sample phase showed strong profit growth, the out-sample test suffered from both negative returns and high drawdowns, suggesting potential overfitting to historical data rather than genuine robustness.
 
@@ -184,4 +266,4 @@ Then, we get below result:
 
 - Add market regime detection or parameter stability testing before deployment.
 
-## Reference
+# 8. Reference
