@@ -163,49 +163,53 @@ WHERE m.datetime BETWEEN '2021-02-08' AND '2025-03-20'
 No timestamp overlap between the two sets. This clean and well-structured dataset serves as the foundation for both backtesting and strategy optimization.
 
 
-# 5. Implementation Guide
+# 🚀 5. Implementation Guide
 
-Follow the steps below to get the project up and running locally.
+Follow the steps below to set up the project locally.
 
-### 1. Clone this Repository
+### 🛠️ 1. Clone the Repository
 
-```bash
-git clone "https://github.com/thachnhb/group9.git"
-```
-
-### 2. Create Environment
-
-#### 2.1. Move into the project directory
+Start by cloning the repository to your local machine:
 
 ```bash
-   cd <repo>
+git clone https://github.com/thachnhb/group9.git
+cd group9
 ```
 
-#### 2.2 Create the virtual environment
+### 🧪 2. Set Up a Virtual Environment
+
+Create an isolated Python environment to manage dependencies cleanly.
+
+Use python3 if your 
+
+#### For Windows:
 
 ```bash
-   python -m venv venv
+python -m venv venv
+.\venv\Scripts\activate
 ```
 
-#### 2.3 Activate the virtual environment (Kích hoạt môi trường ảo):
+#### For macOS/Linux:
 
 ```bash
-.\venv\Scripts\activate (For Windows)
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-or
+> 💡 *Tip: Always activate your virtual environment before running the project.*
 
-```bash
-source venv/bin/activate (For MacOS/Linux)
-```
+### 📦 3. Install Project Dependencies
 
-### 3. Install required libraries from requirement.txt
+Install all required libraries specified in `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### ✅ You're All Set!
+
+Once the setup is complete, you can proceed to data preparation or run the strategy by using instructions in the sections below.
+
 
 # 6. In-sample Backtesting
 
