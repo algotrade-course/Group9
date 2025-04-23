@@ -32,7 +32,7 @@ When the Relative Strength Index (RSI) indicates oversold or overbought conditio
   - Option 1: Download [data](https://drive.google.com/drive/folders/1bK3aXEVfabASZs2xV8VBXYA0mXjQtB-A?usp=sharing) from google drive, extract these files into `data` folder
   - Option 2: Use this script at project folder to get data (please wait for a few minutes ^^):
   ```bash
-  python -m src.data.loaddata()
+  python -m src.data
   ```
 - If you use option 2, `in_sample_data.csv` and `out_sample_data.csv` is stored at `data` folder
 
