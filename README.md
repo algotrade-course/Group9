@@ -281,6 +281,8 @@ python -m src.backtest
 ### 📊 Backtest Results:
 
 ![In-sample Backtesting Result](./graph/Report/insample_backtest.png)
+![Close Price with SMA](./graph/Report/price_with_sma.png)
+![Drawdown Overtime](./graph/Report/drawdown_over_time.png)
 
 | Parameter    | Value        | 
 | ------------ | -------------| 
