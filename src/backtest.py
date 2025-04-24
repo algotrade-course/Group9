@@ -5,6 +5,7 @@ import pandas as pd
 from src.strategy import run_strategy
 from src.evaluate import sharpe_ratio, maximum_drawdown, holding_period_return
 from src.data import load_data
+from src.utils import plot_price_with_sma, plot_rsi, plot_drawdown, plot_asset_over_time
 from matplotlib import pyplot as plt
 
 default_params = {
@@ -29,17 +30,19 @@ def run_backtest(data, params):
     print(f"  Maximum Drawdown: {maximum_drawdown(asset_over_time_df):.2f}%")
     print(f"  Accumulated return rate: {holding_period_return(asset_over_time_df):.2f}%")
 
-    # asset_over_time_df.index = pd.to_datetime(asset_over_time_df.index)
+    # # Vẽ biểu đồ tài sản theo thời gian
+    # asset_over_time_df.plot(kind='line', figsize=(10, 5), title="Asset Over Time (Backtest)")
+    # plt.ylabel("Asset Value")
+    # plt.xlabel("Date")
+    # plt.gca().spines[['top', 'right']].set_visible(False)
+    # plt.tight_layout()
+    # plt.show()
 
-
-    # Vẽ biểu đồ tài sản theo thời gian
-    asset_over_time_df.plot(kind='line', figsize=(10, 5), title="Asset Over Time (Backtest)")
-    plt.ylabel("Asset Value")
-    plt.xlabel("Date")
-    plt.gca().spines[['top', 'right']].set_visible(False)
-    plt.tight_layout()
-    plt.show()
-
+    # Vẽ các biểu đồ hỗ trợ phân tích
+    plot_asset_over_time(asset_over_time_df, title="Asset Over Time (Backtest)")
+    plot_price_with_sma(asset_over_time_df, f"SMA{params['sma_window']}")
+    plot_rsi(asset_over_time_df)
+    plot_drawdown(asset_over_time_df)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run backtest with default or optimized params")
