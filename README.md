@@ -117,6 +117,7 @@ After closing a position, realized P&L is added to capital, and the system becom
   - **In-Sample**: 2021-02-08 → 2023-12-22
   - **Out-of-Sample**: 2023-12-22 → 2025-03-19
 
+![Data Sample](./graph/report/sample/in_out_sample.png)
 
 ##  How to Access the Data
 
@@ -237,7 +238,7 @@ python -m src.backtest
 | Accumulated return rate  | **38.69%** | 
 
 - Asset Over Time:
-![In-sample Backtesting Result](./graph/backtest_InSample/asset_overtime.png)
+![In-sample Backtesting Result](./graph/report/insample_backtest.png)
 
 ---
 
@@ -291,10 +292,10 @@ python -m src.optimize
 | Maximum Drawdown  | **-9.25%**    | 
 | Accumulated return rate  | **2.31%** | 
 #### - Asset Over Time (Optimized):
-![Optimization Result](./graph/optimization_insample/asset_over_time_optimized.png)
+![Optimization Result](./graph/report/optimize/asset_optimize.png)
 
-#### - Optimization History:
-![Optimization History](./graph/optimization_insample/history_plot.png)
+#### - Optimization History Plot:
+![Optimization History](./graph/report/optimize/history_plot.png)
 
 
 ## 📤 Apply Optimized Parameters to Out-of-sample Backtesting
@@ -306,12 +307,12 @@ python -m src.backtest --use-optimized
 ```
 
 📈 Out-of-sample Asset Performance:
-![Out-of-sample Backtesting Result](./graph/backtest_OutSample/Asset_Over_Time.png)
+![Out-of-sample Backtesting Result](./graph/report/optimized_backtest.png)
 
 > 📌 *Note: Optional additional optimization for out-of-sample data can be run similarly.*
 
 📈 Out-of-sample Optimization Result (Optional):
-![Out-of-sample Optimization Result](./graph/optimization_outsample/asset_over_time.png)
+![Out-of-sample Optimization Result](./graph/report/optimize/asset_outsample.png)
 
 
 # 8. Conclusion
