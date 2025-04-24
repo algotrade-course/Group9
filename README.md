@@ -104,9 +104,55 @@ This logic ensures that positions are only opened when a potential reversal is a
 
 After closing a position, realized P&L is added to capital, and the system becomes eligible to open a new position the next day (if entry conditions are met)
 
+# 4. Project Structure
+
+This project is organized in a modular and extensible format. Below is an overview of the key files and folders and their roles within the system.
+
+```bash
+Group9/
+├── config/
+├── data/
+│   ├── in_sample_data.csv     # Preprocessed historical data for training
+│   ├── out_sample_data.csv    # Preprocessed historical data for evaluation
+├── graph/
+│   └── ...                    # Charts and figures generated during backtest/optimization
+├── src/
+│   ├── backtest.py            # Main script for in-sample and out-sample backtesting
+│   ├── optimize.py            # Parameter tuning script using Optuna
+│   ├── strategy.py            # Core trading strategy logic (entry/exit rules)
+│   ├── evaluate.py            # Utility functions to compute Sharpe ratio, drawdown, return
+│   ├── data.py                # Data loading and preprocessing functions
+│   └── utils.py               # (Optional) visualization helpers
+├── best_params.json           # Saved best parameters from optimization
+├── requirements.txt           # Python dependencies
+├── README.md                  # Project documentation
+```
+
+### 🔍 Key Components
+
+- **`src/strategy.py`**  
+  Implements the main trading strategy. Contains logic for SMA/RSI signal generation, trade execution, and asset value tracking.
+
+- **`src/backtest.py`**  
+  Used to evaluate strategy performance on historical data. Calculates key metrics and visualizes asset growth over time.
+
+- **`src/optimize.py`**  
+  Performs hyperparameter optimization using Optuna to identify the most profitable SMA/RSI values.
+
+- **`src/data.py`**  
+  Handles data collection, formatting, and cleaning. Can fetch data from local or online sources.
+
+- **`src/evaluate.py`**  
+  Calculate Metrics: Sharpe ratio, drawdown, return calculations.
+
+- **`graph/`**  
+  Stores all backtesting/optimization charts for reporting or analysis.
 
 
-# 4. Data
+You can easily extend the project with additional strategies, evaluation metrics, or data sources by adding new modules under the `src/` folder.
+
+
+# 5. Data
 
 ## Data Overview
 
@@ -168,7 +214,7 @@ WHERE m.datetime BETWEEN '2021-02-08' AND '2025-03-20'
 No timestamp overlap between the two sets. This clean and well-structured dataset serves as the foundation for both backtesting and strategy optimization.
 
 
-# 5. Implementation Guide
+# 6. Implementation Guide
 
 Follow the steps below to set up the project locally.
 
@@ -214,7 +260,7 @@ pip install -r requirements.txt
 Once the setup is complete, you can proceed to data preparation or run the strategy by using instructions in the sections below.
 
 <br><br>
-# 6. In-sample Backtesting
+# 7. In-sample Backtesting
 
 ### ▶️ Run Backtest
 
@@ -246,7 +292,7 @@ python -m src.backtest
 
 ---
 
-# 7. Optimization
+# 8. Optimization
 
 ### 📌 Methodology
 
@@ -301,6 +347,8 @@ python -m src.optimize
 #### - Optimization History Plot:
 ![Optimization History](./graph/Report/Optimize/history_plot.png)
 
+#### - Parallel Coordinate Plot:
+![Optimization History](./graph/Report/Optimize/parallel_coordinate_plot.png)
 
 ## 📤 Apply Optimized Parameters to Out-of-sample Backtesting
 
@@ -331,7 +379,7 @@ python -m src.backtest --use-optimized
 ![Out-of-sample Optimization Result](./graph/Report/Optimize/asset_outsample.png)
 
 
-# 8. Conclusion
+# 9. Conclusion
 
 The backtesting experiments yield important insights into the robustness and generalizability of the trading strategy.
 
@@ -355,5 +403,3 @@ To enhance the strategy's robustness and readiness for live trading environments
 
 By addressing these points, the strategy could evolve toward a more resilient and adaptable trading system capable of performing consistently across varied market conditions.
 
-
-# 9. Reference
