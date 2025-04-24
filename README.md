@@ -280,6 +280,8 @@ python -m src.backtest
 
 ### 📊 Backtest Results:
 
+![In-sample Backtesting Result](./graph/Report/insample_backtest.png)
+
 | Parameter    | Value        | 
 | ------------ | -------------| 
 | Final Asset Value | **55,475,000.00 VND**     | 
@@ -287,10 +289,6 @@ python -m src.backtest
 | Maximum Drawdown  | **-9.66%** |
 | Accumulated return rate  | **38.69%** | 
 
-- Asset Over Time:
-![In-sample Backtesting Result](./graph/Report/insample_backtest.png)
-
----
 
 # 8. Optimization
 
