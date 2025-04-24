@@ -282,6 +282,7 @@ python -m src.backtest
 
 ![In-sample Backtesting Result](./graph/Report/insample_backtest.png)
 ![Close Price with SMA](./graph/Report/price_with_sma.png)
+![RSI Overtime](./graph/Report/rsi_over_time.png)
 ![Drawdown Overtime](./graph/Report/drawdown_over_time.png)
 
 | Parameter    | Value        | 
@@ -361,8 +362,11 @@ python -m src.backtest --use-optimized
 
 ### 📊 Backtest Results:
 
-- Out-of-sample Asset Performance:
 ![Out-of-sample Backtesting Result](./graph/Report/optimized_backtest.png)
+![Close Price with SMA](./graph/Report/optimized_backtest/price_with_sma.png)
+![RSI Overtime](./graph/Report/optimized_backtest/rsi_over_time.png)
+![Drawdown Overtime](./graph/Report/optimized_backtest/drawdown_over_time.png)
+
 
 - Evaluation:
   
