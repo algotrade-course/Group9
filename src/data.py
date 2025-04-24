@@ -1,5 +1,3 @@
-# data.py
-
 import pandas as pd
 import psycopg
 import pandas as pd
@@ -144,7 +142,8 @@ def load_data(in_sample_path="data/in_sample_data.csv", out_sample_path="data/ou
         # Nếu không có tệp, chạy main để tạo chúng
         main()
 
-    in_sample_df = pd.read_csv(in_sample_path)
+    # in_sample_df = pd.read_csv(in_sample_path)
+    in_sample_df = pd.read_csv(in_sample_path, parse_dates=True, index_col=0)
     out_sample_df = pd.read_csv(out_sample_path, parse_dates=True, index_col=0)
     return in_sample_df, out_sample_df
 

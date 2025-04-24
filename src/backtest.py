@@ -1,8 +1,7 @@
-# backtesting.py
-
 import os
 import argparse
 import json
+import pandas as pd
 from src.strategy import run_strategy
 from src.evaluate import sharpe_ratio, maximum_drawdown, holding_period_return
 from src.data import load_data
@@ -29,6 +28,10 @@ def run_backtest(data, params):
     print(f"  Sharpe Ratio: {sharpe_ratio(asset_over_time_df):.4f}")
     print(f"  Maximum Drawdown: {maximum_drawdown(asset_over_time_df):.2f}%")
     print(f"  Accumulated return rate: {holding_period_return(asset_over_time_df):.2f}%")
+
+    # asset_over_time_df.index = pd.to_datetime(asset_over_time_df.index)
+
+
     # Vẽ biểu đồ tài sản theo thời gian
     asset_over_time_df.plot(kind='line', figsize=(10, 5), title="Asset Over Time (Backtest)")
     plt.ylabel("Asset Value")
