@@ -223,7 +223,9 @@ Follow the steps below to set up the project locally.
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone "https://github.com/algotrade-course/group9"
+git clone "https://github.com/algotrade-course/group9"  
+```
+```base
 cd group9
 ```
 
