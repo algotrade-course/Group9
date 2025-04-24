@@ -180,8 +180,6 @@ cd group9
 
 Create an isolated Python environment to manage dependencies cleanly.
 
-Use python3 if your 
-
 #### For Windows:
 
 ```bash
@@ -210,107 +208,135 @@ pip install -r requirements.txt
 
 Once the setup is complete, you can proceed to data preparation or run the strategy by using instructions in the sections below.
 
-
+<br><br>
 # 6. In-sample Backtesting
 
-To start backtest, run this command:
+### ▶️ Run Backtest
+
+To begin in-sample backtesting, run the following command:
 
 ```bash
 python -m src.backtest
 ```
 
-### Parameters
+### ⚙️ Parameters Used
 
-| Parameter    | Description                       | Default Value |
-| ------------ | --------------------------------- | ------------- |
-| `sma_window` | calculate a Simple Moving Average | 100           |
-| `rsi_lower`  | The buy threshold                 | 25            |
-| `rsi_upper`  | The sell thresold                 | 75            |
+| Parameter    | Description                         | Default Value |
+| ------------ | ----------------------------------- | ------------- |
+| `sma_window` | Window size for Simple Moving Average | 100           |
+| `rsi_lower`  | Buy threshold (RSI lower bound)     | 25            |
+| `rsi_upper`  | Sell threshold (RSI upper bound)    | 75            |
 
-### In-sample Backtesting Result
+### 📊 Backtest Results:
 
-- ![In-sample Backtesting Result](./graph/backtest_InSample/asset_overtime.png)
-```bash
-Final Asset Value: 55475000.0000002
-Sharpe Ratio: 0.7217
-Maximum Drawdown: -9.66%
-Accumulated return rate: 0.3869  
-```
+| Parameter    | Value        | 
+| ------------ | -------------| 
+| Final Asset Value | **55,475,000.00 VND**     | 
+| Sharpe Ratio  | **0.7217**    | 
+| Maximum Drawdown  | **-9.66%** |
+| Accumulated return rate  | **38.69%** | 
+
+- Asset Over Time:
+![In-sample Backtesting Result](./graph/backtest_InSample/asset_overtime.png)
+
 ---
 
 # 7. Optimization
 
-#### Optimization Method
+### 📌 Methodology
 
-The optimization uses Optuna's TPE Sampler (Tree-structured Parzen Estimator).
+The optimization process uses **Optuna's Tree-structured Parzen Estimator (TPE)** to maximize the final asset value by tuning strategy parameters automatically.
 
-The goal is to maximize the final asset value at the end of the trading period.
+This process explores a wide range of parameter combinations and selects the one that yields the highest final asset.
 
-The process automatically explores parameter combinations and records their performance, helping find the most profitable strategy.
+### 🔍 Parameters to Optimize
 
-#### Parameters to Optimize
+| Parameter    | Description                         | Search Space              |
+| ------------ | ----------------------------------- | ------------------------- |
+| `sma_window` | Window size for Simple Moving Average | Integer: `50` → `200`     |
+| `rsi_lower`  | Buy threshold                       | Float: `20.0` → `35.0`     |
+| `rsi_upper`  | Sell threshold                      | Float: `65.0` → `80.0`     |
 
-| Parameter    | Description                       | Search space                |
-| ------------ | --------------------------------- | --------------------------- |
-| `sma_window` | calculate a Simple Moving Average | Integer from `50` to `200`  |
-| `rsi_lower`  | The buy threshold                 | Float from `20.0` to `35.0` |
-| `rsi_upper`  | The sell thresold                 | Float from `65.0` to `80.0` |
+### 🔧 Optimization Settings
 
-#### Hyperparameters of the Optimization Process
+| Hyperparameter | Description                                | Value        |
+| -------------- | ------------------------------------------ | ------------ |
+| `n_trials`     | Number of optimization runs                | 80           |
+| `seed`         | For reproducibility                        | 710          |
+| `sampler`      | Sampling algorithm                         | TPESampler   |
 
-| Hyperparameter | Description                                                     | Value                    |
-| -------------- | --------------------------------------------------------------- | ------------------------ |
-| `n_trials`     | Number of optimization trials to explore parameter combinations | `80` (default in script) |
-| `seed`         | Random seed for reproducibility of results.                     | `710` (used in example)  |
-| `sampler`      | Sampling algorithm used to suggest new parameter values.        | `TPESampler`             |
 
-To run optimize for In-sample data, use this command:
+### ▶️ Run Optimization
+
+To start the optimization process:
 
 ```bash
 python -m src.optimize
 ```
 
-#### In-sample Optimization Result
+### 📊 Resuls After Optimization:
+#### - Best Parameters: 
 
+| Parameter    | Description                         | Optimized Value           |
+| ------------ | ----------------------------------- | -------------------------- |
+| `sma_window` | Simple Moving Average window        | 200                        |
+| `rsi_lower`  | Buy threshold (RSI lower bound)     | 29.14                      |
+| `rsi_upper`  | Sell threshold (RSI upper bound)    | 65.00                      |
+
+#### - Evaluation:
+
+| Parameter    | Value        | 
+| ------------ | -------------| 
+| Sharpe Ratio | **2.5603**      | 
+| Maximum Drawdown  | **-9.25%**    | 
+| Accumulated return rate  | **2.31%** | 
+#### - Asset Over Time (Optimized):
 ![Optimization Result](./graph/optimization_insample/asset_over_time_optimized.png)
-After run above In-sample Optimization, we get below params:
-| Parameter | Description | Default Value |
-| ---------- | --------------------------------- | ------------------ |
-| sma_window | calculate a Simple Moving Average | 200 |
-| rsi_lower | The buy threshold | 29.140662837219445 |
-| rsi_upper | The sell thresold | 65.00361398539523 |
+
+#### - Optimization History:
+![Optimization History](./graph/optimization_insample/history_plot.png)
 
 
-![Optimization Result](./graph/optimization_insample/history_plot.png)
+## 📤 Apply Optimized Parameters to Out-of-sample Backtesting
 
-### Apply params of Optimization for Out-of-sample Backtesting
-
-To run Backtesting with best params from Optimize for Out-Sample, we use this command:
+To test performance on unseen data using the best parameters:
 
 ```bash
 python -m src.backtest --use-optimized
 ```
 
-Then, we get below result:
+📈 Out-of-sample Asset Performance:
+![Out-of-sample Backtesting Result](./graph/backtest_OutSample/Asset_Over_Time.png)
 
-![In-sample Backtesting Result](./graph/backtest_OutSample/Asset_Over_Time.png)
+> 📌 *Note: Optional additional optimization for out-of-sample data can be run similarly.*
 
-#### Out-of-sample Optimization Result (Optional)
+📈 Out-of-sample Optimization Result (Optional):
+![Out-of-sample Optimization Result](./graph/optimization_outsample/asset_over_time.png)
 
-- ![Optimization Result](./graph/optimization_outsample/asset_over_time.png)
 
 # 8. Conclusion
 
-- The backtesting results reveal a significant discrepancy between the in-sample and out-sample performance of the strategy, despite using the same optimized parameters. While the in-sample phase showed strong profit growth, the out-sample test suffered from both negative returns and high drawdowns, suggesting potential overfitting to historical data rather than genuine robustness.
+The backtesting experiments yield important insights into the robustness and generalizability of the trading strategy.
 
-- Additionally, during further testing with conventional parameters (SMA window = 100, RSI 30/70), the asset curve flattened for a large part of the period. This indicates that the strategy’s signal conditions were either too restrictive or the market conditions did not trigger any trades for extended periods. Such behavior highlights that the strategy's logic may have low adaptability and high sensitivity to parameter settings, especially in varying market environments.
+- **In-sample vs. Out-of-sample Performance**:  
+  While the strategy demonstrated promising results during the in-sample phase—with consistent profit growth and controlled risk—the out-of-sample evaluation presented a stark contrast. The strategy struggled with negative returns and higher drawdowns, suggesting that the performance was likely influenced by overfitting to historical data rather than generalizable signal strength.
 
-- In summary, the current algorithm exhibits signs of overfitting and structural fragility. Further review is recommended to:
+- **Observations from Baseline Parameters**:  
+  When tested with conventional technical indicator thresholds (SMA window = 100, RSI = 30/70), the strategy's asset curve remained largely flat for extended durations. This behavior implies that the current signal conditions are either overly restrictive or misaligned with broader market dynamics, leading to periods of inactivity and missed opportunities.
 
-- Reconsider entry/exit rules to avoid dead zones.
+- **Strategy Fragility and Sensitivity**:  
+  The high sensitivity of the strategy to parameter tuning, along with poor adaptability across different market regimes, indicates a structurally fragile design. Such issues are critical for real-world deployment, especially in volatile or non-stationary environments.
 
-- Allow more dynamic thresholds.
+### 🔧 Recommendations for Improvement
 
-- Add market regime detection or parameter stability testing before deployment.
+To enhance the strategy's robustness and readiness for live trading environments, we suggest the following improvements:
+
+- Reassess entry and exit logic to minimize "dead zones" where no trades are triggered.
+- Introduce adaptive or dynamic thresholding mechanisms instead of fixed RSI/SMA values.
+- Incorporate market regime detection (e.g., trending vs. ranging markets) to adjust behavior dynamically.
+- Apply walk-forward validation or stability tests to ensure parameter reliability across time.
+
+By addressing these points, the strategy could evolve toward a more resilient and adaptable trading system capable of performing consistently across varied market conditions.
+
 
 # 9. Reference
