@@ -168,7 +168,7 @@ WHERE m.datetime BETWEEN '2021-02-08' AND '2025-03-20'
 No timestamp overlap between the two sets. This clean and well-structured dataset serves as the foundation for both backtesting and strategy optimization.
 
 
-# 🚀 5. Implementation Guide
+# 5. Implementation Guide
 
 Follow the steps below to set up the project locally.
 
@@ -304,15 +304,20 @@ python -m src.optimize
 
 ## 📤 Apply Optimized Parameters to Out-of-sample Backtesting
 
+### ▶️ Run Backtest:
 To test performance on unseen data using the best parameters:
 
 ```bash
 python -m src.backtest --use-optimized
 ```
 
-📈 Out-of-sample Asset Performance:
+### 📊 Backtest Results:
+
+- Out-of-sample Asset Performance:
 ![Out-of-sample Backtesting Result](./graph/Report/optimized_backtest.png)
 
+- Evaluation:
+  
 | Parameter    | Value        | 
 | ------------ | -------------| 
 | Final Asset Value | **27990000.0 VND**     | 
@@ -322,7 +327,7 @@ python -m src.backtest --use-optimized
 
 > 📌 *Note: Optional additional optimization for out-of-sample data can be run similarly.*
 
-📈 Out-of-sample Optimization Result (Optional):
+### Out-of-sample Optimization Result (Optional):
 ![Out-of-sample Optimization Result](./graph/Report/Optimize/asset_outsample.png)
 
 
