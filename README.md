@@ -117,7 +117,11 @@ After closing a position, realized P&L is added to capital, and the system becom
   - **In-Sample**: 2021-02-08 → 2023-12-22
   - **Out-of-Sample**: 2023-12-22 → 2025-03-19
 
-![Data Sample](./graph/report/sample/in_out_sample.png)
+<p align="center">
+  <img src="./graph/Report/Sample/in_out_sample.png" alt="Data Sample" width="49%">
+  <img src="./graph/Report/Sample/close_sma_in_sample.png" alt="Price And SMA In Sample" width="49%">
+</p>
+
 
 ##  How to Access the Data
 
@@ -238,7 +242,7 @@ python -m src.backtest
 | Accumulated return rate  | **38.69%** | 
 
 - Asset Over Time:
-![In-sample Backtesting Result](./graph/report/insample_backtest.png)
+![In-sample Backtesting Result](./graph/Report/insample_backtest.png)
 
 ---
 
@@ -292,10 +296,10 @@ python -m src.optimize
 | Maximum Drawdown  | **-9.25%**    | 
 | Accumulated return rate  | **2.31%** | 
 #### - Asset Over Time (Optimized):
-![Optimization Result](./graph/report/optimize/asset_optimize.png)
+![Optimization Result](./graph/Report/Optimize/asset_optimize.png)
 
 #### - Optimization History Plot:
-![Optimization History](./graph/report/optimize/history_plot.png)
+![Optimization History](./graph/Report/Optimize/history_plot.png)
 
 
 ## 📤 Apply Optimized Parameters to Out-of-sample Backtesting
@@ -307,12 +311,19 @@ python -m src.backtest --use-optimized
 ```
 
 📈 Out-of-sample Asset Performance:
-![Out-of-sample Backtesting Result](./graph/report/optimized_backtest.png)
+![Out-of-sample Backtesting Result](./graph/Report/optimized_backtest.png)
+
+| Parameter    | Value        | 
+| ------------ | -------------| 
+| Final Asset Value | **27990000.0 VND**     | 
+| Sharpe Ratio  | **-1.7126**    | 
+| Maximum Drawdown  | **-31.14%** |
+| Accumulated return rate  | **-0.30%** | 
 
 > 📌 *Note: Optional additional optimization for out-of-sample data can be run similarly.*
 
 📈 Out-of-sample Optimization Result (Optional):
-![Out-of-sample Optimization Result](./graph/report/optimize/asset_outsample.png)
+![Out-of-sample Optimization Result](./graph/Report/Optimize/asset_outsample.png)
 
 
 # 8. Conclusion
