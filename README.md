@@ -294,7 +294,7 @@ python -m src.backtest
 | Final Asset Value | **55,475,000.00 VND**     | 
 | Sharpe Ratio  | **0.7217**    | 
 | Maximum Drawdown  | **-9.66%** |
-| Accumulated return rate  | **38.69%** | 
+| Accumulated return rate  | **0.39%** | 
 
 
 # 8. Optimization
