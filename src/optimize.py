@@ -6,7 +6,7 @@ import json
 from src.data import load_data
 from src.strategy import run_strategy
 from src.evaluate import sharpe_ratio, maximum_drawdown, holding_period_return
-from src.utils import plot_all_optuna
+from src.utils import plot_all_optuna, plot_asset_over_time
 
 def objective(trial, data):
     sma_window = trial.suggest_int("sma_window", 50, 200)
@@ -58,12 +58,14 @@ if __name__ == "__main__":
     # Vẽ biểu đồ asset và biểu đồ Optuna
     import matplotlib.pyplot as plt
 
-    asset_df.plot(kind='line', figsize=(10, 5), title="Asset Over Time (Optimized)")
-    plt.ylabel("Asset Value")
-    plt.xlabel("Date")
-    plt.gca().spines[['top', 'right']].set_visible(False)
-    plt.tight_layout()
-    plt.show()
+    # asset_df.plot(kind='line', figsize=(10, 5), title="Asset Over Time (Optimized)")
+    # plt.ylabel("Asset Value")
+    # plt.xlabel("Date")
+    # plt.gca().spines[['top', 'right']].set_visible(False)
+    # plt.tight_layout()
+    # plt.show()
+
+    plot_asset_over_time(asset_df, title="Asset Over Time (Optimized)")
 
     # Biểu đồ Optuna
     plot_all_optuna(study)

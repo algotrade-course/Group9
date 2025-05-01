@@ -37,6 +37,8 @@ def run_backtest(data, params):
     # plt.gca().spines[['top', 'right']].set_visible(False)
     # plt.tight_layout()
     # plt.show()
+    print("🧾 Các cột trong asset_over_time_df:", asset_over_time_df.columns.tolist())
+
 
     # Vẽ các biểu đồ hỗ trợ phân tích
     plot_asset_over_time(asset_over_time_df, title="Asset Over Time (Backtest)")

@@ -44,14 +44,27 @@ def plot_drawdown(df):
     plt.show()
     plt.close()
 
+# def plot_asset_over_time(df, title="Asset Over Time"):
+#     df.plot(kind='line', figsize=(10, 5), title=title)
+#     plt.ylabel("Asset Value")
+#     plt.xlabel("Date")
+#     plt.gca().spines[['top', 'right']].set_visible(False)
+#     plt.tight_layout()
+#     plt.show()
+#     plt.close()
+
 def plot_asset_over_time(df, title="Asset Over Time"):
-    df.plot(kind='line', figsize=(10, 5), title=title)
+    plt.figure(figsize=(10, 5))
+    plt.plot(df["Asset"], label="Asset")
+    plt.title(title)
     plt.ylabel("Asset Value")
     plt.xlabel("Date")
+    plt.legend()
     plt.gca().spines[['top', 'right']].set_visible(False)
     plt.tight_layout()
     plt.show()
     plt.close()
+
 
 def plot_all_optuna(study):
     """
