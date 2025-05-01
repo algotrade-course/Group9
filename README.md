@@ -383,9 +383,6 @@ python -m src.backtest --use-optimized
 
 > 📌 *Note: Optional additional optimization for out-of-sample data can be run similarly.*
 
-### Out-of-sample Optimization Result (Optional):
-![Out-of-sample Optimization Result](./graph/Report/Optimize/asset_outsample.png)
-
 
 # 9. Conclusion
 
