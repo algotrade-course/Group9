@@ -225,10 +225,10 @@ Follow the steps below to set up the project locally.
 Start by cloning the repository to your local machine:
 
 ```bash
-git clone "https://github.com/algotrade-course/group9"  
+git clone "https://github.com/algotrade-course/SMAxRSI.git"  
 ```
 ```base
-cd group9
+cd SMAxRSI
 ```
 
 ### 🧪 2. Set Up a Virtual Environment
