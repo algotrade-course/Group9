@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/PLUTUS-65%25-%23BA8E23)
+![Static Badge](https://img.shields.io/badge/PLUTUS-75%25-darkgreen)
 
 # Abstract
 
